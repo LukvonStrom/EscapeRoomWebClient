@@ -31,7 +31,7 @@ class App extends Component {
                 this.state.socket.on('disconnect', () => this.setState({connected: false}, () => cb()));
                 this.state.socket.on("mystery2-unlocked", () => {
                     this.setState({
-                        unlockedNext : true,
+                        completedChat : true,
                     });
                 })
             });
@@ -59,8 +59,11 @@ class App extends Component {
                                         <li className="nav-item">
                                             <Link to="/settings" className="nav-link">Settings</Link>
                                         </li>
-                                        {this.state.connected && <li className="nav-item">
+                                        {(this.state.connected && !this.state.completedChat) && <li className="nav-item">
                                             <Link to="/chat" className="nav-link">Chat</Link>
+                                        </li>}
+                                        {(this.state.connected && this.state.completedChat) && <li className="nav-item">
+                                            <Link to="/mystery" className="nav-link">Mystery</Link>
                                         </li>}
                                     </ul>
                                 </div>
@@ -68,7 +71,8 @@ class App extends Component {
 
                             <Route path="/" exact component={IndexPage}/>
                             <Route path="/settings" component={ConnectionPage} />
-                            {this.state.connected && <Route path="/chat" component={ChatPage} />}
+                            {(this.state.connected) && <Route path="/chat" component={ChatPage} />}
+                            {(this.state.connected && this.state.completedChat) && <Route path="/mystery" component={ChatPage} />}
                         </div>
                     </Router>
                 </SocketProvider>

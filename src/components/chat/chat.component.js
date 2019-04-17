@@ -7,8 +7,7 @@ class ChatComponent extends Component {
         super(props);
         this.state = {
             history : [],
-            chatInput : '',
-            unlockedNext : false
+            chatInput : ''
         };
     }
 
@@ -22,8 +21,7 @@ class ChatComponent extends Component {
 
             this.props.socket.on("mystery2-unlocked", () => {
                 this.setState(prevState => ({
-                    history : [...prevState.history, {date : new Date(), message : "New Mystery unlocked!", isOwnMessage : false}],
-                    unlockedNext : true,
+                    history : [...prevState.history, {date : new Date(), message : "New Mystery unlocked!", isOwnMessage : false}]
                 }));
             })
         }
@@ -40,7 +38,7 @@ class ChatComponent extends Component {
 
     submitChatMessage = e => {
         e.preventDefault();
-        if (this.state.chatInput && this.state.chatInput.length > 0) {
+        if (this.state.chatInput && this.state.chatInput.length > 0 && !this.props.completedChat) {
             this.props.socket.emit('chat', this.state.chatInput);
             this.setState(prevState => ({
                 history : [...prevState.history, {date : new Date(), message : this.state.chatInput, isOwnMessage : true}]
@@ -60,13 +58,13 @@ class ChatComponent extends Component {
     render() {
         return (
             <Fragment>
-                {this.state.unlockedNext && <div className="alert alert-success" role="alert" style={{marginBottom: '8px'}}>
+                {this.props.completedChat && <div className="alert alert-success" role="alert" style={{marginBottom: '8px'}}>
                     <i className="fa fa-check-circle"/> Unlocked next Mystery!
                 </div>}
                 {this.state.history.length > 0 && <Fragment><div className="container">
                     <div className="row">
                         <div className="col offset-10" style={{marginBottom: '8px'}}>
-                            <button className="btn btn-primary" onClick={() => this.setState({history : [], unlockedNext : false})}>Delete Chat</button>
+                            <button className="btn btn-primary" onClick={() => this.setState({history : []})}>Delete Chat</button>
                         </div>
                     </div>
                 </div>
@@ -82,11 +80,11 @@ class ChatComponent extends Component {
                         <div className="form-group row">
                             <div className="col">
                                 <div className="input-group">
-                                    <input id="chatInput" name="chatInput" placeholder="Message" type="text" required="required" className="form-control" value={this.state.chatInput} onChange={this.handleInputChange}/>
+                                    <input id="chatInput" name="chatInput" placeholder="Message" type="text" required="required" className="form-control" value={this.state.chatInput} onChange={this.handleInputChange} disabled={this.props.completedChat}/>
                                     {this.state.chatInput.length > 0 && <button className="btn bg-transparent" style={{marginLeft: '-40px', zIndex: '100'}} type="button" onClick={this.clearChatMessage}>
                                         <i className="fa fa-times"/>
                                     </button>}
-                                    <div className="input-group-append" onClick={this.submitChatMessage} style={{cursor : 'pointer'}}>
+                                    <div className="input-group-append" onClick={this.submitChatMessage} style={{cursor : (this.props.completedChat) ? 'not-allowed' : 'pointer'}}>
                                         <div className="input-group-text">
                                             <i className="fa fa-paper-plane"/>
                                         </div>
