@@ -3,7 +3,13 @@ import React, { Component } from 'react';
 export default class IndexComponent extends Component {
     render() {
         return (
-            <h1>Ja lol ey!</h1>
+            <div className="container">
+                <div className="row">
+                    <div className="col">
+                        <p>Interresant.</p>
+                    </div>
+                </div>
+            </div>
         )
     }
 }

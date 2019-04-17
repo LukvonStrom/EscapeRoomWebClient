@@ -30,15 +30,15 @@ class ConnectionFormComponent extends Component {
         if (this.props.socket) {
             this.handleConnectionChange();
         }
-        if(this.props.uri){
+        if (this.props.uri) {
             const explodedUri = this.props.uri.split(':');
-            this.setState({connectionAddress: explodedUri[0], connectionPort: +explodedUri[1]});
+            this.setState({connectionAddress : explodedUri[0], connectionPort : +explodedUri[1]});
         }
     }
 
     connect = () => {
         this.props.connectToSocket(`${this.state.connectionAddress}:${this.state.connectionPort}`, () => {
-            if(!this.props.socket.connected){
+            if (!this.props.socket.connected) {
                 this.props.history.push('/settings');
                 return;
             }
@@ -50,66 +50,66 @@ class ConnectionFormComponent extends Component {
 
     render() {
         return (
-                <div className="row">
-                    <div className="col">
-                        <form>
-                            {this.state.connected && <div className="alert alert-success" role="alert">
-                                <i className="fa fa-check-circle"/> Verbunden!
-                            </div>}
-                            <div className="form-group row">
-                                <label htmlFor="hostname" className="col-3 col-form-label">Hostname</label>
-                                <div className="col-9">
-                                    <div className="input-group">
-                                        <div className="input-group-prepend">
-                                            <div className="input-group-text">
-                                                <i className="fa fa-server"/>
-                                            </div>
+            <div className="row">
+                <div className="col">
+                    <form>
+                        {this.state.connected && <div className="alert alert-success" role="alert">
+                            <i className="fa fa-check-circle"/> Verbunden!
+                        </div>}
+                        <div className="form-group row">
+                            <label htmlFor="hostname" className="col-3 col-form-label">Hostname</label>
+                            <div className="col-9">
+                                <div className="input-group">
+                                    <div className="input-group-prepend">
+                                        <div className="input-group-text">
+                                            <i className="fa fa-server"/>
                                         </div>
-                                        <input
-                                            id="hostname"
-                                            name="connectionAddress"
-                                            placeholder="localhost"
-                                            type="text"
-                                            aria-describedby="hostnameHelpBlock"
-                                            required="required"
-                                            className="form-control"
-                                            value={this.state.connectionAddress}
-                                            onChange={this.handleInputChange}/>
                                     </div>
-                                    <span id="hostnameHelpBlock" className="form-text text-muted">The Hostname of the Websocket Server</span>
+                                    <input
+                                        id="hostname"
+                                        name="connectionAddress"
+                                        placeholder="localhost"
+                                        type="text"
+                                        aria-describedby="hostnameHelpBlock"
+                                        required="required"
+                                        className="form-control"
+                                        value={this.state.connectionAddress}
+                                        onChange={this.handleInputChange}/>
                                 </div>
+                                <span id="hostnameHelpBlock" className="form-text text-muted">The Hostname of the Websocket Server</span>
                             </div>
-                            <div className="form-group row">
-                                <label className="col-3 col-form-label" htmlFor="port">Port</label>
-                                <div className="col-9">
-                                    <div className="input-group">
-                                        <div className="input-group-prepend">
-                                            <div className="input-group-text">
-                                                <i className="fa fa-sort-numeric-down"/>
-                                            </div>
+                        </div>
+                        <div className="form-group row">
+                            <label className="col-3 col-form-label" htmlFor="port">Port</label>
+                            <div className="col-9">
+                                <div className="input-group">
+                                    <div className="input-group-prepend">
+                                        <div className="input-group-text">
+                                            <i className="fa fa-sort-numeric-down"/>
                                         </div>
-                                        <input
-                                            id="port"
-                                            name="connectionPort"
-                                            placeholder="80"
-                                            type="number"
-                                            className="form-control"
-                                            aria-describedby="portHelpBlock"
-                                            required="required"
-                                            value={this.state.connectionPort}
-                                            onChange={this.handleInputChange}/>
                                     </div>
-                                    <span id="portHelpBlock" className="form-text text-muted">The Port of the Websocket Server</span>
+                                    <input
+                                        id="port"
+                                        name="connectionPort"
+                                        placeholder="80"
+                                        type="number"
+                                        className="form-control"
+                                        aria-describedby="portHelpBlock"
+                                        required="required"
+                                        value={this.state.connectionPort}
+                                        onChange={this.handleInputChange}/>
                                 </div>
+                                <span id="portHelpBlock" className="form-text text-muted">The Port of the Websocket Server</span>
                             </div>
-                            {!this.state.connected && <div className="form-group row">
-                                <div className="offset-3 col-9">
-                                    <button name="submit" type="button" className="btn btn-primary" onClick={this.connect}>Verbinden</button>
-                                </div>
-                            </div>}
-                        </form>
-                    </div>
-                </div>)
+                        </div>
+                        {!this.state.connected && <div className="form-group row">
+                            <div className="offset-3 col-9">
+                                <button name="submit" type="button" className="btn btn-primary" onClick={this.connect}>Verbinden</button>
+                            </div>
+                        </div>}
+                    </form>
+                </div>
+            </div>)
     }
 }
 

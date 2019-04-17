@@ -12,6 +12,7 @@ class App extends Component {
         socket : null,
         uri: '',
         connected: false,
+        completedChat: false,
     };
 
     componentDidMount() {
@@ -23,11 +24,16 @@ class App extends Component {
         try {
             this.setState({
                 socket : io.connect(hostname, {
-                    reconnectionAttempts : 2
+                    reconnectionAttempts : 4
                 })
             }, () => {
                 this.state.socket.on('connect', () => this.setState({connected: true}, () => cb()));
                 this.state.socket.on('disconnect', () => this.setState({connected: false}, () => cb()));
+                this.state.socket.on("mystery2-unlocked", () => {
+                    this.setState({
+                        unlockedNext : true,
+                    });
+                })
             });
         } catch (err) {
             console.error(err);
@@ -37,7 +43,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <SocketProvider socket={this.state.socket} connectToSocket={this.connectSocket} uri={this.state.uri} updateUri={this.updateUri}>
+                <SocketProvider socket={this.state.socket} connectToSocket={this.connectSocket} uri={this.state.uri} updateUri={this.updateUri} completedChat={this.state.completedChat}>
                     <Router>
                         <div>
                             <nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={{marginBottom: '8px'}}>
