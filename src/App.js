@@ -10,9 +10,9 @@ import ChatPage from "./components/chat.page";
 class App extends Component {
     state = {
         socket : null,
-        uri: '',
-        connected: false,
-        completedChat: false,
+        uri : '',
+        connected : false,
+        completedChat : false,
     };
 
     componentDidMount() {
@@ -27,8 +27,8 @@ class App extends Component {
                     reconnectionAttempts : 4
                 })
             }, () => {
-                this.state.socket.on('connect', () => this.setState({connected: true}, () => cb()));
-                this.state.socket.on('disconnect', () => this.setState({connected: false}, () => cb()));
+                this.state.socket.on('connect', () => this.setState({connected : true}, () => cb()));
+                this.state.socket.on('disconnect', () => this.setState({connected : false}, () => cb()));
                 this.state.socket.on("mystery2-unlocked", () => {
                     this.setState({
                         completedChat : true,
@@ -46,10 +46,10 @@ class App extends Component {
                 <SocketProvider socket={this.state.socket} connectToSocket={this.connectSocket} uri={this.state.uri} updateUri={this.updateUri} completedChat={this.state.completedChat}>
                     <Router>
                         <div>
-                            <nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={{marginBottom: '8px'}}>
+                            <nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={{marginBottom : '8px'}}>
                                 <Link to="/" className="navbar-brand">Escape Room</Link>
                                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                                    <span className="navbar-toggler-icon" />
+                                    <span className="navbar-toggler-icon"/>
                                 </button>
                                 <div className="collapse navbar-collapse" id="navbarNav">
                                     <ul className="navbar-nav">
@@ -59,20 +59,27 @@ class App extends Component {
                                         <li className="nav-item">
                                             <Link to="/settings" className="nav-link">Settings</Link>
                                         </li>
-                                        {(this.state.connected && !this.state.completedChat) && <li className="nav-item">
-                                            <Link to="/chat" className="nav-link">Chat</Link>
-                                        </li>}
-                                        {(this.state.connected && this.state.completedChat) && <li className="nav-item">
-                                            <Link to="/mystery" className="nav-link">Mystery</Link>
-                                        </li>}
+                                        <li className="nav-item">
+                                            {(this.state.connected && !this.state.completedChat) ?
+                                                <Link to="/chat" className="nav-link">Chat</Link>
+                                                :
+                                                <a className="nav-link disabled">Chat</a>}
+                                        </li>
+                                        <li className="nav-item">
+                                            {(this.state.connected && this.state.completedChat) ?
+                                                <Link to="/mystery" className="nav-link">Mystery</Link>
+                                                :
+                                                <a className="nav-link disabled">Mystery</a>
+                                            }
+                                        </li>
                                     </ul>
                                 </div>
                             </nav>
 
                             <Route path="/" exact component={IndexPage}/>
-                            <Route path="/settings" component={ConnectionPage} />
-                            {(this.state.connected) && <Route path="/chat" component={ChatPage} />}
-                            {(this.state.connected && this.state.completedChat) && <Route path="/mystery" component={ChatPage} />}
+                            <Route path="/settings" component={ConnectionPage}/>
+                            {(this.state.connected) && <Route path="/chat" component={ChatPage}/>}
+                            {(this.state.connected && this.state.completedChat) && <Route path="/mystery" component={ChatPage}/>}
                         </div>
                     </Router>
                 </SocketProvider>

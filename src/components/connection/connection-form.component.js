@@ -76,7 +76,7 @@ class ConnectionFormComponent extends Component {
                                         value={this.state.connectionAddress}
                                         onChange={this.handleInputChange}/>
                                 </div>
-                                <span id="hostnameHelpBlock" className="form-text text-muted">The Hostname of the Websocket Server</span>
+                                <span id="hostnameHelpBlock" className="form-text text-muted">The Hostname/IP of the Websocket Server</span>
                             </div>
                         </div>
                         <div className="form-group row">
@@ -97,7 +97,8 @@ class ConnectionFormComponent extends Component {
                                         aria-describedby="portHelpBlock"
                                         required="required"
                                         value={this.state.connectionPort}
-                                        onChange={this.handleInputChange}/>
+                                        onChange={this.handleInputChange}
+                                        onKeyPress={event => event.key === "Enter" ? this.connect() : ""}/>
                                 </div>
                                 <span id="portHelpBlock" className="form-text text-muted">The Port of the Websocket Server</span>
                             </div>

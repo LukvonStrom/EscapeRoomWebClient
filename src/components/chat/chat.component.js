@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { withSocket } from "../../websocket/socket.provider";
 import ChatMessage from "./chat-message.component";
+import ChatServerMessage from "./chat-server-message";
 
 class ChatComponent extends Component {
     constructor(props) {
@@ -71,11 +72,17 @@ class ChatComponent extends Component {
                 <hr /></Fragment>}
                 <div className="container">
 
-                    {this.state.history.map(item => <ChatMessage
-                        key={item.message}
-                        isOwnMessage={item.isOwnMessage}
-                        message={item.message}
-                        date={item.date}/>)}
+                    {this.state.history.map(item => (item.isOwnMessage) ?
+                        <ChatMessage
+                            key={item.message}
+                            message={item.message}
+                            date={item.date}/>
+                            :
+                        <ChatServerMessage
+                            key={item.message}
+                            message={item.message}
+                            date={item.date}/>)}
+
                     <form onSubmit={this.submitChatMessage}>
                         <div className="form-group row">
                             <div className="col">
