@@ -1,17 +1,17 @@
 {
   "name": "escape-room-webclient",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "bootstrap": "^4.3.1",
-    "jquery": "^3.3.1",
+    "jquery": "^3.4.0",
     "node-sass": "^4.11.0",
     "popper.js": "^1.15.0",
     "react": "^16.8.6",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.8",
+    "react-scripts": "^2.1.8",
     "socket.io-client": "^2.2.0",
     "source-map-explorer": "^1.8.0"
   },
@@ -28,7 +28,7 @@
   "browserslist": [
     ">0.2%",
     "not dead",
-    "not ie <= 11",
+    "not ie all",
     "not op_mini all"
   ],
   "devDependencies": {
