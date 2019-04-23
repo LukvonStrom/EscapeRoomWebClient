@@ -7,25 +7,8 @@ class ChatComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            history : [],
             chatInput : ''
         };
-    }
-
-    componentDidMount() {
-        if (this.props.socket && this.props.socket.connected) {
-            this.props.socket.on('chat', (responseMessage) => {
-                this.setState(prevState => ({
-                    history : [...prevState.history, {date : new Date(), message : responseMessage, isOwnMessage : false}]
-                }));
-            });
-
-            this.props.socket.on("mystery2-unlocked", () => {
-                this.setState(prevState => ({
-                    history : [...prevState.history, {date : new Date(), message : "New Mystery unlocked!", isOwnMessage : false}]
-                }));
-            })
-        }
     }
 
     handleInputChange = event => {
@@ -41,9 +24,7 @@ class ChatComponent extends Component {
         e.preventDefault();
         if (this.state.chatInput && this.state.chatInput.length > 0 && !this.props.completedChat) {
             this.props.socket.emit('chat', this.state.chatInput);
-            this.setState(prevState => ({
-                history : [...prevState.history, {date : new Date(), message : this.state.chatInput, isOwnMessage : true}]
-            }), () => this.setState({chatInput : ''}));
+            this.props.addMessage(this.state.chatInput, true, () => this.setState({chatInput : ''}));
 
         }
     };
@@ -62,17 +43,17 @@ class ChatComponent extends Component {
                 {this.props.completedChat && <div className="alert alert-success" role="alert" style={{marginBottom: '8px'}}>
                     <i className="fa fa-check-circle"/> Unlocked next Mystery!
                 </div>}
-                {this.state.history.length > 0 && <Fragment><div className="container">
+                {this.props.history.length > 0 && <Fragment><div className="container">
                     <div className="row">
                         <div className="col offset-10" style={{marginBottom: '8px'}}>
-                            <button className="btn btn-primary" onClick={() => this.setState({history : []})}>Delete Chat</button>
+                            <button className="btn btn-primary" onClick={this.props.emptyHistory}>Delete Chat</button>
                         </div>
                     </div>
                 </div>
                 <hr /></Fragment>}
                 <div className="container">
 
-                    {this.state.history.map(item => (item.isOwnMessage) ?
+                    {this.props.history.map(item => (item.isOwnMessage) ?
                         <ChatMessage
                             key={item.message}
                             message={item.message}

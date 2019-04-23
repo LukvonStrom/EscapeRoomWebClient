@@ -5,10 +5,9 @@ class ConnectionFormComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            connected : false,
             connectionAddress : "localhost",
             connectionPort : 80,
-        }
+        };
     }
 
     handleInputChange = event => {
@@ -22,14 +21,7 @@ class ConnectionFormComponent extends Component {
 
     };
 
-    handleConnectionChange = () => this.setState({
-        connected : this.props.socket ? this.props.socket.connected : false,
-    });
-
     componentDidMount() {
-        if (this.props.socket) {
-            this.handleConnectionChange();
-        }
         if (this.props.uri) {
             const explodedUri = this.props.uri.split(':');
             this.setState({connectionAddress : explodedUri[0], connectionPort : +explodedUri[1]});
@@ -37,14 +29,7 @@ class ConnectionFormComponent extends Component {
     }
 
     connect = () => {
-        this.props.connectToSocket(`${this.state.connectionAddress}:${this.state.connectionPort}`, () => {
-            if (!this.props.socket.connected) {
-                this.props.history.push('/settings');
-                return;
-            }
-            this.handleConnectionChange();
-
-        });
+        this.props.connectToSocket(`${this.state.connectionAddress}:${this.state.connectionPort}`, () => this.props.history.push('/settings'));
     };
 
 
@@ -53,7 +38,7 @@ class ConnectionFormComponent extends Component {
             <div className="row">
                 <div className="col">
                     <form>
-                        {this.state.connected && <div className="alert alert-success" role="alert">
+                        {this.props.connected && <div className="alert alert-success" role="alert">
                             <i className="fa fa-check-circle"/> Verbunden!
                         </div>}
                         <div className="form-group row">
@@ -103,11 +88,19 @@ class ConnectionFormComponent extends Component {
                                 <span id="portHelpBlock" className="form-text text-muted">The Port of the Websocket Server</span>
                             </div>
                         </div>
-                        {!this.state.connected && <div className="form-group row">
+                        {!this.props.connected && <div className="form-group row">
                             <div className="offset-3 col-9">
-                                <button name="submit" type="button" className="btn btn-primary" onClick={this.connect}>Verbinden</button>
+                        {!this.props.isConnecting &&<button name="submit" type="button" className="btn btn-primary" onClick={this.connect}>Verbinden</button>}
+
+                        {this.props.isConnecting &&
+                            <button className="btn btn-primary" type="button" disabled>
+                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" style={{marginRight: '4px', marginBottom: '2px'}}/>
+                            Verbindet... {this.props.connectionAttempts}/4
+                            </button>}
+
                             </div>
                         </div>}
+
                     </form>
                 </div>
             </div>)

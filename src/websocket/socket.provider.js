@@ -1,14 +1,99 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import io from "socket.io-client";
 
 // SocketContext = {Provider, Consumer}
 const SocketContext = React.createContext(null);
 
+const reconnectionAttempts = 4;
+
 export class SocketProvider extends Component {
 
-    render() {
+    state = {
+        socket : null,
+        uri : '',
+        connected : false,
+        completedChat : false,
+        completedMystery: false,
+        history: [],
+        isConnecting: false,
+        connectionAttempts: 0,
+    };
 
+    updateUri = (uri) => this.setState({uri});
+
+    addMessage = (message, isOwnMessage, cb) => {
+        this.setState(prevState => ({
+            history : [...prevState.history, {date : new Date(), message, isOwnMessage}]
+        }), () => {if(cb) cb()});
+    };
+
+    emptyHistory = () => this.setState({history : []});
+
+    connectSocket = (hostname, historyCB) => {
+        const forceRedirect = () => {
+            console.log('Socket Connection State changed to', this.state.socket.connected);
+            if (!this.state.socket.connected) {
+                console.log('Attempting redirect to Settings...');
+                historyCB();
+            }
+        };
+
+
+        try {
+            this.setState({
+                socket : io.connect(hostname, {
+                    reconnectionAttempts
+                }),
+                isConnecting: true
+            }, () => {
+                this.state.socket.on('connect_error', () => this.setState(prevState => {
+                    if(prevState.connectionAttempts === reconnectionAttempts){
+                        return {
+                            isConnecting: false,
+                            connectionAttempts: 0
+                        }
+                    }
+
+                    return {
+                        isConnecting: true,
+                        connectionAttempts : prevState.connectionAttempts +1,
+                    }
+                }));
+
+                this.state.socket.on('connect', () => this.setState({connected : true, isConnecting: false, connectionAttempts: 0}, () => {
+                    forceRedirect();
+                }));
+                this.state.socket.on('disconnect', () => {
+                    forceRedirect();
+                    setTimeout(() =>requestAnimationFrame(()=>this.setState({connected : false, isConnecting: false, connectionAttempts: 0})), 1000);
+                });
+
+                this.state.socket.on("mystery2-unlocked", () => {
+                    this.setState({
+                        completedChat : true,
+                    }, () => {
+                        this.addMessage("New Mystery unlocked!", false);
+                    });
+                });
+
+                this.state.socket.on("mystery3-unlocked", () => {
+                    this.setState({
+                        completedMystery: true
+                    })
+                });
+
+                this.state.socket.on('chat', (responseMessage) => {
+                    this.addMessage(responseMessage, false);
+                });
+            });
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    render() {
         return (
-            <SocketContext.Provider value={{socket: this.props.socket, connectToSocket: this.props.connectToSocket, uri: this.props.uri, updateUri: this.props.updateUri, completedChat: this.props.completedChat}}>
+            <SocketContext.Provider value={{addMessage: this.addMessage, connectToSocket: this.connectSocket, updateUri: this.updateUri, emptyHistory: this.emptyHistory, ...this.state}} {...this.props}>
                 {this.props.children}
             </SocketContext.Provider>
         );
@@ -17,14 +102,13 @@ export class SocketProvider extends Component {
 
 export function withSocket(Component) {
     class ComponentWithSocket extends React.Component {
-        static displayName = `${Component.displayName ||
-        Component.name}`;
+        static displayName = `${Component.displayName || Component.name}`;
 
 
         render() {
             return (
                 <SocketContext.Consumer>
-                    { ({socket, connectToSocket, uri, updateUri, completedChat}) =>  <Component {...this.props}  connectToSocket={connectToSocket} socket={socket} uri={uri} updateUri={updateUri} completedChat={completedChat} ref={this.props.onRef} /> }
+                    { (contextValues) =>  <Component {...this.props}  {...contextValues} ref={this.props.onRef} /> }
                 </SocketContext.Consumer>
             );
         }

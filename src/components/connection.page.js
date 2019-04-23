@@ -1,5 +1,6 @@
 import React from 'react';
 import ConnectionFormComponent from "./connection/connection-form.component";
+import ProgressComponent from "./connection/progress.component";
 
 export default function ConnectionPage(props) {
     return (
@@ -16,6 +17,8 @@ export default function ConnectionPage(props) {
             </div>
 
             <ConnectionFormComponent {...props}/>
+
+            <ProgressComponent/>
         </div>
     )
 }
