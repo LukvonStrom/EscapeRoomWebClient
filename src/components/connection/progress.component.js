@@ -34,7 +34,7 @@ class ProgressComponent extends Component {
                 <div className="row">
                     <div className="col">
                         <div className="progress">
-                            <div className={"progress-bar progress-bar-striped progress-bar-animated " +(this.state.progress === 100 ? "bg-success" : "bg-info")}
+                            <div className={"progress-bar progress-bar-striped progress-bar-animated " +(this.state.progress === 100 ? "bg-success" : "")}
                                  role="progressbar"
                                  style={{width : `${this.state.progress}%`}}/>
                         </div>

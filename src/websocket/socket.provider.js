@@ -22,9 +22,13 @@ export class SocketProvider extends Component {
     updateUri = (uri) => this.setState({uri});
 
     addMessage = (message, isOwnMessage, cb) => {
-        this.setState(prevState => ({
-            history : [...prevState.history, {date : new Date(), message, isOwnMessage}]
-        }), () => {if(cb) cb()});
+
+            this.setState(prevState => ({
+                history : [...prevState.history, {date : new Date(), message, isOwnMessage}]
+            }), () => {
+                if (cb) cb()
+            });
+
     };
 
     emptyHistory = () => this.setState({history : []});
