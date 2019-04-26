@@ -28,7 +28,6 @@
   "browserslist": [
     ">0.2%",
     "not dead",
-    "not ie all",
     "not op_mini all"
   ],
   "devDependencies": {

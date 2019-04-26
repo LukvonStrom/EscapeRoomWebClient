@@ -22,9 +22,11 @@ class ChatComponent extends Component {
 
     submitChatMessage = e => {
         e.preventDefault();
-        if (this.state.chatInput && this.state.chatInput.length > 0 && !this.props.completedChat && !this.state.history.some(chatMessage => (chatMessage.message === this.state.chatInput))) {
+        if (this.state.chatInput && this.state.chatInput.length > 0 && !this.props.completedChat && (!this.props.history || !this.props.history.some(chatMessage => (chatMessage.message === this.state.chatInput)))) {
             this.props.socket.emit('chat', this.state.chatInput);
             this.props.addMessage(this.state.chatInput, true, () => this.setState({chatInput : ''}));
+        }else{
+            this.setState({chatInput: ''})
         }
     };
     clearChatMessage = e => {
