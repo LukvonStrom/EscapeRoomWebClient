@@ -13,7 +13,7 @@ export class SocketProvider extends Component {
         uri : '',
         connected : false,
         completedChat : false,
-        completedMystery: false,
+        completedImage: false,
         history: [],
         isConnecting: false,
         connectionAttempts: 0,
@@ -80,9 +80,9 @@ export class SocketProvider extends Component {
                     });
                 });
 
-                this.state.socket.on("mystery3-unlocked", () => {
+                this.state.socket.on("image-binary", (solved) => {
                     this.setState({
-                        completedMystery: true
+                        completedImage: Boolean(solved)
                     })
                 });
 

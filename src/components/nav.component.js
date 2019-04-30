@@ -28,9 +28,9 @@ class NavComponent extends Component {
                         </li>
                         <li className="nav-item">
                             {(this.props.connected && this.props.completedChat) ?
-                                <Link to="/mystery" className="nav-link">Mystery</Link>
+                                <Link to="/image-mystery" className="nav-link">Image Mystery</Link>
                                 :
-                                <a href="/" className="nav-link disabled">Mystery</a>
+                                <a href="/" className="nav-link disabled">Image Mystery</a>
                             }
                         </li>
                     </ul>

@@ -23,10 +23,9 @@ class ChatComponent extends Component {
     submitChatMessage = e => {
         e.preventDefault();
         if (this.state.chatInput && this.state.chatInput.length > 0 && !this.props.completedChat && (!this.props.history || !this.props.history.some(chatMessage => (chatMessage.message === this.state.chatInput)))) {
+            console.log(!this.props.history, this.props.history);
             this.props.socket.emit('chat', this.state.chatInput);
             this.props.addMessage(this.state.chatInput, true, () => this.setState({chatInput : ''}));
-        }else{
-            this.setState({chatInput: ''})
         }
     };
     clearChatMessage = e => {
@@ -46,7 +45,7 @@ class ChatComponent extends Component {
                 </div>}
                 {this.props.history.length > 0 && <Fragment><div className="container">
                     <div className="row">
-                        <div className="col offset-10" style={{marginBottom: '8px'}}>
+                        <div className="col offset-9" style={{marginBottom: '8px'}}>
                             <button className="btn btn-primary" onClick={this.props.emptyHistory}>Delete Chat</button>
                         </div>
                     </div>
