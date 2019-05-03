@@ -4,13 +4,15 @@ import { SocketProvider } from "./websocket/socket.provider";
 import 'bootstrap';
 import RoutesComponent from "./components/routes.component";
 import NavComponent from "./components/nav.component";
+import ErrorBoundary from "./components/error-boundary.component";
 
 class App extends Component {
 
     render() {
         return (
             <div className="App">
-                <Router>
+                <ErrorBoundary>
+                    <Router>
                         <SocketProvider>
                             <div>
                                 <NavComponent/>
@@ -18,7 +20,8 @@ class App extends Component {
                                 <RoutesComponent/>
                             </div>
                         </SocketProvider>
-                </Router>
+                    </Router>
+                </ErrorBoundary>
             </div>
         );
     }

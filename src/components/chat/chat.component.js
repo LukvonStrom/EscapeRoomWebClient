@@ -53,9 +53,9 @@ class ChatComponent extends Component {
                 <hr /></Fragment>}
                 <div className="container">
 
-                    {this.props.history.map(item => (item.isOwnMessage) ?
+                    {this.props.history.map((item, index) => (item.isOwnMessage) ?
                         <ChatMessage
-                            key={item.message}
+                            key={index}
                             message={item.message}
                             date={item.date}/>
                             :
