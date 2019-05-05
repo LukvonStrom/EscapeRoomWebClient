@@ -6,7 +6,7 @@ export default function ConnectionPage(props) {
     return (
         <div className="container">
             <div className="row">
-                <div className="col offset-3">
+                <div className="col" style={{textAlign: 'center'}}>
                     <h3>Websocket Connection</h3>
                 </div>
             </div>
@@ -18,6 +18,7 @@ export default function ConnectionPage(props) {
 
             <ConnectionFormComponent {...props}/>
 
+            <h3 style={{textAlign: 'center'}}>Fortschritt</h3>
             <ProgressComponent/>
         </div>
     )

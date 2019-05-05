@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom';
 import './custom.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+window.$ = window.jQuery = require('jquery');
+
+// Quickfix - collapses Nav via Jquery when navigation is done.
+window.$(() => window.$(".navbar-collapse").on("click", "a:not([data-toggle])", null, () => window.$(".navbar-collapse").collapse('hide')));
+
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

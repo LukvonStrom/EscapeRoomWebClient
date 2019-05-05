@@ -1,9 +1,15 @@
 import React, { Component } from "react";
 import { withSocket } from "../websocket/socket.provider";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 class NavComponent extends Component {
 
+    appendActive = (path) =>{
+        if(this.props.location && this.props.location.pathname === path){
+            return " active";
+        }
+        return "";
+    };
 
     render() {
         return (
@@ -15,20 +21,20 @@ class NavComponent extends Component {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <Link to="/" className="nav-link">Home</Link>
+                            <Link to="/" className={"nav-link" + this.appendActive("/")}>Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to="/settings" className="nav-link">Settings</Link>
+                            <Link to="/settings" className={"nav-link" + this.appendActive("/settings")}>Settings</Link>
                         </li>
                         <li className="nav-item">
                             {(this.props.connected && !this.props.completedChat) ?
-                                <Link to="/chat" className="nav-link">Chat</Link>
+                                <Link to="/chat" className={"nav-link" + this.appendActive("/chat")}>Chat</Link>
                                 :
                                 <a href="/" className="nav-link disabled">Chat</a>}
                         </li>
                         <li className="nav-item">
                             {(this.props.connected && this.props.completedChat) ?
-                                <Link to="/image-mystery" className="nav-link">Image Mystery</Link>
+                                <Link to="/image-mystery" className={"nav-link" + this.appendActive("/image-mistery")}>Image Mystery</Link>
                                 :
                                 <a href="/" className="nav-link disabled">Image Mystery</a>
                             }
@@ -41,4 +47,4 @@ class NavComponent extends Component {
 }
 
 
-export default withSocket(NavComponent);
+export default withRouter(withSocket(NavComponent));

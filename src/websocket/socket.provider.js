@@ -69,7 +69,7 @@ export class SocketProvider extends Component {
                 }));
                 this.state.socket.on('disconnect', () => {
                     forceRedirect();
-                    setTimeout(() =>requestAnimationFrame(()=>this.setState({connected : false, isConnecting: false, connectionAttempts: 0})), 1000);
+                    setTimeout(() => requestAnimationFrame(()=>this.setState({connected : false, isConnecting: false, connectionAttempts: 0})), 1000);
                 });
 
                 this.state.socket.on("mystery2-unlocked", () => {
@@ -112,7 +112,7 @@ export function withSocket(Component) {
         render() {
             return (
                 <SocketContext.Consumer>
-                    { (contextValues) =>  <Component {...this.props}  {...contextValues} ref={this.props.onRef} /> }
+                    { (contextValues) =>  <Component {...this.props}  {...contextValues} {...Component.props} /> }
                 </SocketContext.Consumer>
             );
         }

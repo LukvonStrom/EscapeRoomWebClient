@@ -5,7 +5,7 @@ export default function ImageMysteryPage(props) {
     return (
         <div className="container">
             <div className="row">
-                <div className="col d-flex justify-content-center">
+                <div className="col" style={{textAlign: 'center'}}>
                     <h3>Image Mystery</h3>
                 </div>
             </div>
