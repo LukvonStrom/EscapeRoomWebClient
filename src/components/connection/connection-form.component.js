@@ -5,7 +5,7 @@ class ConnectionFormComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            connectionAddress : "localhost",
+            connectionAddress : "10.3.141.1",
             connectionPort : 80,
         };
     }
