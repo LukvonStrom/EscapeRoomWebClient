@@ -5,8 +5,8 @@ export default function ImageMysteryPage(props) {
     return (
         <div className="container">
             <div className="row">
-                <div className="col" style={{textAlign: 'center'}}>
-                    <h3>Image Mystery</h3>
+                <div className="col" style={{textAlign : 'center'}}>
+                    <h3>Bilderr&auml;tsel</h3>
                 </div>
             </div>
             <div className="row">

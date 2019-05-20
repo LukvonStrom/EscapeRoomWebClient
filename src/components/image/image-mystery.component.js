@@ -41,7 +41,7 @@ class ImageMysteryComponent extends Component {
                 {this.props.completedImage && <div className="alert alert-success" role="alert" style={{marginBottom : '8px'}}>
                     <i className="fa fa-check-circle"/> Webrätsel erledigt, bitte jetzt mit Rätsel 4 der Desktopapp fortfahren.
                 </div>}
-                <div className="container" style={{marginTop: '8px', marginBottom: '8px', textAlign: 'center', fontWeight: 'bold'}}>
+                <div className="container" style={{marginTop : '8px', marginBottom : '8px', textAlign : 'center', fontWeight : 'bold'}}>
                     <p>Für Informationen, was hier zu tun ist, Rätsel 3 in der Desktopapp lesen.</p>
                 </div>
                 <div className="container">
@@ -51,7 +51,7 @@ class ImageMysteryComponent extends Component {
                                 <div className="input-group">
                                     <input id="solutionInput"
                                            name="solutionInput"
-                                           placeholder="Message"
+                                           placeholder="Lösung f&uuml;r das Bilderr&auml;tsel"
                                            type="text"
                                            required="required"
                                            className="form-control"

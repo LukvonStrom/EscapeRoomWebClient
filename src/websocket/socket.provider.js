@@ -13,21 +13,21 @@ export class SocketProvider extends Component {
         uri : '',
         connected : false,
         completedChat : false,
-        completedImage: false,
-        history: [],
-        isConnecting: false,
-        connectionAttempts: 0,
+        completedImage : false,
+        history : [],
+        isConnecting : false,
+        connectionAttempts : 0,
     };
 
     updateUri = (uri) => this.setState({uri});
 
     addMessage = (message, isOwnMessage, cb) => {
 
-            this.setState(prevState => ({
-                history : [...prevState.history, {date : new Date(), message, isOwnMessage}]
-            }), () => {
-                if (cb) cb()
-            });
+        this.setState(prevState => ({
+            history : [...prevState.history, {date : new Date(), message, isOwnMessage}]
+        }), () => {
+            if (cb) cb()
+        });
 
     };
 
@@ -48,41 +48,41 @@ export class SocketProvider extends Component {
                 socket : io.connect(hostname, {
                     reconnectionAttempts
                 }),
-                isConnecting: true
+                isConnecting : true
             }, () => {
                 this.state.socket.on('connect_error', () => this.setState(prevState => {
-                    if(prevState.connectionAttempts === reconnectionAttempts){
+                    if (prevState.connectionAttempts === reconnectionAttempts) {
                         return {
-                            isConnecting: false,
-                            connectionAttempts: 0
+                            isConnecting : false,
+                            connectionAttempts : 0
                         }
                     }
 
                     return {
-                        isConnecting: true,
-                        connectionAttempts : prevState.connectionAttempts +1,
+                        isConnecting : true,
+                        connectionAttempts : prevState.connectionAttempts + 1,
                     }
                 }));
 
-                this.state.socket.on('connect', () => this.setState({connected : true, isConnecting: false, connectionAttempts: 0}, () => {
+                this.state.socket.on('connect', () => this.setState({connected : true, isConnecting : false, connectionAttempts : 0}, () => {
                     forceRedirect();
                 }));
                 this.state.socket.on('disconnect', () => {
                     forceRedirect();
-                    setTimeout(() => requestAnimationFrame(()=>this.setState({connected : false, isConnecting: false, connectionAttempts: 0})), 1000);
+                    setTimeout(() => requestAnimationFrame(() => this.setState({connected : false, isConnecting : false, connectionAttempts : 0})), 1000);
                 });
 
                 this.state.socket.on("mystery2-unlocked", () => {
                     this.setState({
                         completedChat : true,
                     }, () => {
-                        this.addMessage("New Mystery unlocked!", false);
+                        this.addMessage("Bilderrätsel wurde freigeschalten!", false);
                     });
                 });
 
                 this.state.socket.on("image-binary", (solved) => {
                     this.setState({
-                        completedImage: Boolean(solved)
+                        completedImage : Boolean(solved)
                     })
                 });
 
@@ -97,7 +97,7 @@ export class SocketProvider extends Component {
 
     render() {
         return (
-            <SocketContext.Provider value={{addMessage: this.addMessage, connectToSocket: this.connectSocket, updateUri: this.updateUri, emptyHistory: this.emptyHistory, ...this.state}} {...this.props}>
+            <SocketContext.Provider value={{addMessage : this.addMessage, connectToSocket : this.connectSocket, updateUri : this.updateUri, emptyHistory : this.emptyHistory, ...this.state}} {...this.props}>
                 {this.props.children}
             </SocketContext.Provider>
         );
@@ -110,9 +110,10 @@ export function withSocket(Component) {
 
 
         render() {
+            console.log(this.props);
             return (
                 <SocketContext.Consumer>
-                    { (contextValues) =>  <Component {...this.props}  {...contextValues} {...Component.props} /> }
+                    {(contextValues) => <Component {...this.props} {...contextValues} {...Component.props} />}
                 </SocketContext.Consumer>
             );
         }

@@ -6,13 +6,13 @@ export default function IndexPage() {
         <Fragment>
             <div className="container">
                 <div className="row">
-                    <div className="col" style={{textAlign: 'center'}}>
+                    <div className="col" style={{textAlign : 'center'}}>
                         <h1>Escape Room Webclient</h1>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col">
-                        <hr />
+                        <hr/>
                     </div>
                 </div>
             </div>

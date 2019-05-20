@@ -3,15 +3,15 @@ import { withSocket } from "../../websocket/socket.provider";
 
 class ProgressComponent extends Component {
 
-    state= {
-        progress: 0
+    state = {
+        progress : 0
     };
 
-    relevantProps = ["connected", "completedChat"/*, "completedMystery"*/];
+    relevantProps = ["connected", "completedChat", "completedImage"];
 
     reCalcProgress = () => {
         let progress = 0;
-        this.relevantProps.forEach(prop => progress += (this.props[prop] ? (100/this.relevantProps.length) : 0));
+        this.relevantProps.forEach(prop => progress += (this.props[prop] ? (100 / this.relevantProps.length) : 0));
         this.setState({progress});
     };
 
@@ -21,7 +21,7 @@ class ProgressComponent extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         for (let relevantProp of this.relevantProps) {
-            if(this.props[relevantProp] !== prevProps[relevantProp]){
+            if (this.props[relevantProp] !== prevProps[relevantProp]) {
                 this.reCalcProgress();
                 return;
             }
@@ -34,7 +34,7 @@ class ProgressComponent extends Component {
                 <div className="row">
                     <div className="col">
                         <div className="progress">
-                            <div className={"progress-bar progress-bar-striped progress-bar-animated " +(this.state.progress === 100 ? "bg-success" : "")}
+                            <div className={"progress-bar progress-bar-striped progress-bar-animated " + (this.state.progress === 100 ? "bg-success" : "")}
                                  role="progressbar"
                                  style={{width : `${this.state.progress}%`}}/>
                         </div>
@@ -45,7 +45,7 @@ class ProgressComponent extends Component {
                         <ul>
                             {this.props.connected && <li>Verbunden via Websocket.</li>}
                             {(this.props.connected && this.props.completedChat) && <li>Chat-Rätsel gelöst.</li>}
-                            {(this.props.connected && this.props.completedMystery) && <li>Rätsel 3 gelöst.</li>}
+                            {(this.props.connected && this.props.completedImage) && <li>Bilderrätsel gelöst.</li>}
                         </ul>
                     </div>
                 </div>

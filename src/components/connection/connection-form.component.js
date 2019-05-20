@@ -61,7 +61,7 @@ class ConnectionFormComponent extends Component {
                                         value={this.state.connectionAddress}
                                         onChange={this.handleInputChange}/>
                                 </div>
-                                <span id="hostnameHelpBlock" className="form-text text-muted">The Hostname/IP of the Websocket Server</span>
+                                <span id="hostnameHelpBlock" className="form-text text-muted">Der Hostname/die IP des Websocket Servers</span>
                             </div>
                         </div>
                         <div className="form-group row">
@@ -85,18 +85,18 @@ class ConnectionFormComponent extends Component {
                                         onChange={this.handleInputChange}
                                         onKeyPress={event => event.key === "Enter" ? this.connect() : ""}/>
                                 </div>
-                                <span id="portHelpBlock" className="form-text text-muted">The Port of the Websocket Server</span>
+                                <span id="portHelpBlock" className="form-text text-muted">Der Port des Websocket Servers</span>
                             </div>
                         </div>
                         {!this.props.connected && <div className="form-group row">
                             <div className="offset-3 col-9">
-                        {!this.props.isConnecting &&<button name="submit" type="button" className="btn btn-primary" onClick={this.connect}>Verbinden</button>}
+                                {!this.props.isConnecting && <button name="submit" type="button" className="btn btn-primary" onClick={this.connect}>Verbinden</button>}
 
-                        {this.props.isConnecting &&
-                            <button className="btn btn-primary" type="button" disabled>
-                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" style={{marginRight: '4px', marginBottom: '2px'}}/>
-                            Verbindet... {this.props.connectionAttempts}/4
-                            </button>}
+                                {this.props.isConnecting &&
+                                <button className="btn btn-primary" type="button" disabled>
+                                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" style={{marginRight : '4px', marginBottom : '2px'}}/>
+                                    Verbinden... Versuch {this.props.connectionAttempts}/4
+                                </button>}
 
                             </div>
                         </div>}

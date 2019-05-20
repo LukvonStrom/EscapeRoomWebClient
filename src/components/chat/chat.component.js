@@ -31,7 +31,7 @@ class ChatComponent extends Component {
     clearChatMessage = e => {
         e.preventDefault();
         if (this.state.chatInput && this.state.chatInput.length > 0) {
-            this.setState({chatInput: ''});
+            this.setState({chatInput : ''});
         }
 
     };
@@ -40,17 +40,19 @@ class ChatComponent extends Component {
     render() {
         return (
             <Fragment>
-                {this.props.completedChat && <div className="alert alert-success" role="alert" style={{marginBottom: '8px'}}>
-                    <i className="fa fa-check-circle"/> Unlocked next Mystery!
+                {this.props.completedChat && <div className="alert alert-success" role="alert" style={{marginBottom : '8px'}}>
+                    <i className="fa fa-check-circle"/> N&auml;chstes R&auml;tsel freigeschalten!
                 </div>}
-                {this.props.history.length > 0 && <Fragment><div className="container">
-                    <div className="row">
-                        <div className="col offset-9" style={{marginBottom: '8px'}}>
-                            <button className="btn btn-primary" onClick={this.props.emptyHistory}>Delete Chat</button>
+                {this.props.history.length > 0 && <Fragment>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col offset-9" style={{marginBottom : '8px'}}>
+                                <button className="btn btn-primary" onClick={this.props.emptyHistory}>Chat l&ouml;schen</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <hr /></Fragment>}
+                    <hr/>
+                </Fragment>}
                 <div className="container">
 
                     {this.props.history.map((item, index) => (item.isOwnMessage) ?
@@ -58,7 +60,7 @@ class ChatComponent extends Component {
                             key={index}
                             message={item.message}
                             date={item.date}/>
-                            :
+                        :
                         <ChatServerMessage
                             key={item.message}
                             message={item.message}
@@ -68,8 +70,16 @@ class ChatComponent extends Component {
                         <div className="form-group row">
                             <div className="col">
                                 <div className="input-group">
-                                    <input id="chatInput" name="chatInput" placeholder="Message" type="text" required="required" className="form-control" value={this.state.chatInput} onChange={this.handleInputChange} disabled={this.props.completedChat}/>
-                                    {this.state.chatInput.length > 0 && <button className="btn bg-transparent" style={{marginLeft: '-40px', zIndex: '100'}} type="button" onClick={this.clearChatMessage}>
+                                    <input id="chatInput"
+                                           name="chatInput"
+                                           placeholder="Nachricht"
+                                           type="text"
+                                           required="required"
+                                           className="form-control"
+                                           value={this.state.chatInput}
+                                           onChange={this.handleInputChange}
+                                           disabled={this.props.completedChat}/>
+                                    {this.state.chatInput.length > 0 && <button className="btn bg-transparent" style={{marginLeft : '-40px', zIndex : '100'}} type="button" onClick={this.clearChatMessage}>
                                         <i className="fa fa-times"/>
                                     </button>}
                                     <div className="input-group-append" onClick={this.submitChatMessage} style={{cursor : (this.props.completedChat) ? 'not-allowed' : 'pointer'}}>
