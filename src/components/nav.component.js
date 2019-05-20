@@ -36,7 +36,7 @@ class NavComponent extends Component {
                             {(this.props.connected && this.props.completedChat) ?
                                 <Link to="/image-mystery" className={"nav-link" + this.appendActive("/image-mistery")}>Bilderr&auml;tsel</Link>
                                 :
-                                <a href="/" className="nav-link disabled">Image Mystery</a>
+                                <a href="/" className="nav-link disabled">Bilderr&auml;tsel</a>
                             }
                         </li>
                     </ul>
